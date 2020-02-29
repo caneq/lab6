@@ -40,10 +40,10 @@ public class BouncingBall implements Runnable {
     private double speedX;
     private double speedY;
 
-    public void setSpeed(int speed, double angle) {
-        this.speed = speed;
-        speedX = 3 * speed * Math.cos(angle);
-        speedY = 3 * speed * Math.sin(angle);
+    public void setSpeed(double speedX, double speedY) {
+        this.speedX = speedX;
+        this.speedY = speedY;
+        speed = (int) Math.sqrt(Math.pow(speedX, 2) + Math.pow(speedY, 2));
     }
 
     public int getRadius() {
