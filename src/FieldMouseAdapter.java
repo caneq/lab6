@@ -11,16 +11,18 @@ public class FieldMouseAdapter extends MouseAdapter {
     private MouseEvent pressedEvent;
     private BouncingBall pressedBall;
     private long pressedTime;
+    private Field field;
 
-    public FieldMouseAdapter(ArrayList<BouncingBall> balls){
+    public FieldMouseAdapter(ArrayList<BouncingBall> balls, Field field){
         this.balls = balls;
-
+        this.field = field;
     }
 
 
     @Override
     public void mousePressed(MouseEvent e) {
         super.mousePressed(e);
+        field.pause();
         pressedEvent = e;
         pressedTime = System.currentTimeMillis();
     }
@@ -34,6 +36,7 @@ public class FieldMouseAdapter extends MouseAdapter {
                 ball.setSpeed(pressedEvent.getX() - e.getX(), pressedEvent.getY() - e.getY());
             }
         }
+        field.resume();
     }
 
     private boolean checkPoint(MouseEvent e, BouncingBall ball){
