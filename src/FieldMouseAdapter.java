@@ -30,10 +30,11 @@ public class FieldMouseAdapter extends MouseAdapter {
     @Override
     public void mouseReleased(MouseEvent e) {
        super.mouseReleased(e);
-        for(ListIterator i = balls.listIterator(); i.hasPrevious(); ){
+        for(ListIterator i = balls.listIterator(balls.size()); i.hasPrevious(); ){
             BouncingBall ball = (BouncingBall)i.previous();
             if (checkPoint(pressedEvent, ball)){
-                ball.setSpeed(pressedEvent.getX() - e.getX(), pressedEvent.getY() - e.getY());
+                int timeSpan = (int)(System.currentTimeMillis() - pressedTime);
+                ball.setSpeed((e.getX() - pressedEvent.getX())/timeSpan, (e.getY() - pressedEvent.getY())/timeSpan);
             }
         }
         field.resume();
