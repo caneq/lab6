@@ -46,6 +46,10 @@ public class BouncingBall implements Runnable {
         speedY = 3 * speed * Math.sin(angle);
     }
 
+    public int getRadius() {
+        return radius;
+    }
+
     // Конструктор класса BouncingBall
     public BouncingBall(Field field) {
         // Необходимо иметь ссылку на поле, по которому прыгает мяч,
