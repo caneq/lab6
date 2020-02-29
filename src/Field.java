@@ -31,19 +31,7 @@ public class Field extends JPanel {
         // Запустить таймер
         repaintTimer.start();
 
-        this.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-                super.mousePressed(e);
-                pause();
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                super.mouseReleased(e);
-                resume();
-            }
-        });
+        this.addMouseListener(new FieldMouseAdapter(balls, this));
     }
 
     // Унаследованный от JPanel метод перерисовки компонента
