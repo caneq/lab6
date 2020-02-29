@@ -40,6 +40,12 @@ public class BouncingBall implements Runnable {
     private double speedX;
     private double speedY;
 
+    public void setSpeed(int speed, double angle) {
+        this.speed = speed;
+        speedX = speed * Math.cos(angle);
+        speedY = speed * Math.sin(angle);
+    }
+
     // Конструктор класса BouncingBall
     public BouncingBall(Field field) {
         // Необходимо иметь ссылку на поле, по которому прыгает мяч,
