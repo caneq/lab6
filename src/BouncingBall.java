@@ -42,8 +42,8 @@ public class BouncingBall implements Runnable {
 
     public void setSpeed(int speed, double angle) {
         this.speed = speed;
-        speedX = speed * Math.cos(angle);
-        speedY = speed * Math.sin(angle);
+        speedX = 3 * speed * Math.cos(angle);
+        speedY = 3 * speed * Math.sin(angle);
     }
 
     // Конструктор класса BouncingBall
