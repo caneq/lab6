@@ -22,22 +22,29 @@ public class FieldMouseAdapter extends MouseAdapter {
     @Override
     public void mousePressed(MouseEvent e) {
         super.mousePressed(e);
-        field.pause();
-        pressedEvent = e;
-        pressedTime = System.currentTimeMillis();
+        if (field.isPaused()) return;
+        for(ListIterator i = balls.listIterator(balls.size()); i.hasPrevious(); ){
+            BouncingBall ball = (BouncingBall)i.previous();
+            if (checkPoint(e, ball)){
+                pressedEvent = e;
+                field.pause();
+                pressedTime = System.currentTimeMillis();
+                pressedBall = ball;
+                break;
+            }
+        }
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
        super.mouseReleased(e);
-        for(ListIterator i = balls.listIterator(balls.size()); i.hasPrevious(); ){
-            BouncingBall ball = (BouncingBall)i.previous();
-            if (checkPoint(pressedEvent, ball)){
-                int timeSpan = (int)(System.currentTimeMillis() - pressedTime);
-                ball.setSpeed((e.getX() - pressedEvent.getX())/timeSpan, (e.getY() - pressedEvent.getY())/timeSpan);
-            }
-        }
-        field.resume();
+       if (pressedBall == null) return;
+
+       int timeSpan = (int) (System.currentTimeMillis() - pressedTime);
+       pressedBall.setSpeed((e.getX() - pressedEvent.getX()) / timeSpan, (e.getY() - pressedEvent.getY()) / timeSpan);
+       pressedBall = null;
+       field.resume();
+
     }
 
     private boolean checkPoint(MouseEvent e, BouncingBall ball){

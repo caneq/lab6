@@ -16,7 +16,7 @@ public class Field extends JPanel {
 
     // Класс таймер отвечает за регулярную генерацию событий ActionEvent
     // При создании его экземпляра используется анонимный класс,
-// реализующий интерфейс ActionListener 
+    // реализующий интерфейс ActionListener
     private Timer repaintTimer = new Timer(10, new ActionListener() {
         public void actionPerformed(ActionEvent ev) {
             // Задача обработчика события ActionEvent - перерисовка окна
@@ -40,9 +40,11 @@ public class Field extends JPanel {
         super.paintComponent(g);
         Graphics2D canvas = (Graphics2D) g;
         // Последовательно запросить прорисовку от всех мячей из списка
-        for (BouncingBall ball: balls) {
-            ball.paint(canvas);
-        }
+        balls.forEach(ball -> ball.paint(canvas) );
+    }
+
+    public boolean isPaused(){
+        return paused;
     }
 
     // Метод добавления нового мяча в список
