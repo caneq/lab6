@@ -1,7 +1,5 @@
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionAdapter;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.ListIterator;
 
@@ -22,25 +20,39 @@ public class FieldMouseAdapter extends MouseAdapter {
     @Override
     public void mousePressed(MouseEvent e) {
         super.mousePressed(e);
-        field.pause();
+        if (field.isPaused()) return;
+        BouncingBall ball = findBall(e);
+        if(ball == null) return;
         pressedEvent = e;
+        field.pause();
         pressedTime = System.currentTimeMillis();
+        pressedBall = ball;
+
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
        super.mouseReleased(e);
-        for(ListIterator i = balls.listIterator(balls.size()); i.hasPrevious(); ){
-            BouncingBall ball = (BouncingBall)i.previous();
-            if (checkPoint(pressedEvent, ball)){
-                int timeSpan = (int)(System.currentTimeMillis() - pressedTime);
-                ball.setSpeed((e.getX() - pressedEvent.getX())/timeSpan, (e.getY() - pressedEvent.getY())/timeSpan);
-            }
-        }
-        field.resume();
+       if (pressedBall == null) return;
+
+       int timeSpan = (int) (System.currentTimeMillis() - pressedTime);
+       pressedBall.setSpeed((e.getX() - pressedEvent.getX()) / timeSpan, (e.getY() - pressedEvent.getY()) / timeSpan);
+       pressedBall = null;
+       field.resume();
+
     }
 
-    private boolean checkPoint(MouseEvent e, BouncingBall ball){
+    private BouncingBall findBall(MouseEvent e){
+        for(ListIterator i = balls.listIterator(balls.size()); i.hasPrevious(); ){
+            BouncingBall ball = (BouncingBall)i.previous();
+            if (isInnerBallPoint(e, ball)){
+                return ball;
+            }
+        }
+        return null;
+    }
+
+    private boolean isInnerBallPoint(MouseEvent e, BouncingBall ball){
         if (Math.abs(e.getY() - ball.getY()) <  ball.getRadius()
          && Math.abs(e.getX() - ball.getX()) <  ball.getRadius()){
             return true;
