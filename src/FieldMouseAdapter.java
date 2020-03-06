@@ -21,6 +21,7 @@ public class FieldMouseAdapter extends MouseAdapter {
     public void mousePressed(MouseEvent e) {
         super.mousePressed(e);
         if (field.isPaused()) return;
+
         BouncingBall ball = findBall(e);
         if(ball == null) return;
         pressedEvent = e;
@@ -50,6 +51,7 @@ public class FieldMouseAdapter extends MouseAdapter {
             }
         }
         return null;
+
     }
 
     private boolean isInnerBallPoint(MouseEvent e, BouncingBall ball){

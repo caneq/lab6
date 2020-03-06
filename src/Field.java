@@ -28,8 +28,7 @@ public class Field extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D canvas = (Graphics2D) g;
-        balls.forEach(ball -> ball.paint(canvas));
-    }
+
     public boolean isPaused(){
         return paused;
     }
