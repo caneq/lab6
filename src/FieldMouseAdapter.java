@@ -1,7 +1,5 @@
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionAdapter;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.ListIterator;
 
@@ -23,16 +21,14 @@ public class FieldMouseAdapter extends MouseAdapter {
     public void mousePressed(MouseEvent e) {
         super.mousePressed(e);
         if (field.isPaused()) return;
-        for(ListIterator i = balls.listIterator(balls.size()); i.hasPrevious(); ){
-            BouncingBall ball = (BouncingBall)i.previous();
-            if (checkPoint(e, ball)){
-                pressedEvent = e;
-                field.pause();
-                pressedTime = System.currentTimeMillis();
-                pressedBall = ball;
-                break;
-            }
-        }
+
+        BouncingBall ball = findBall(e);
+        if(ball == null) return;
+        pressedEvent = e;
+        field.pause();
+        pressedTime = System.currentTimeMillis();
+        pressedBall = ball;
+
     }
 
     @Override
@@ -47,7 +43,18 @@ public class FieldMouseAdapter extends MouseAdapter {
 
     }
 
-    private boolean checkPoint(MouseEvent e, BouncingBall ball){
+    private BouncingBall findBall(MouseEvent e){
+        for(ListIterator i = balls.listIterator(balls.size()); i.hasPrevious(); ){
+            BouncingBall ball = (BouncingBall)i.previous();
+            if (isInnerBallPoint(e, ball)){
+                return ball;
+            }
+        }
+        return null;
+
+    }
+
+    private boolean isInnerBallPoint(MouseEvent e, BouncingBall ball){
         if (Math.abs(e.getY() - ball.getY()) <  ball.getRadius()
          && Math.abs(e.getX() - ball.getX()) <  ball.getRadius()){
             return true;
