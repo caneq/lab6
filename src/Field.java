@@ -29,6 +29,11 @@ public class Field extends JPanel {
         super.paintComponent(g);
         Graphics2D canvas = (Graphics2D) g;
 
+        for (BouncingBall ball: balls) {
+            ball.paint(canvas);
+        }
+    }
+
     public boolean isPaused(){
         return paused;
     }
@@ -46,8 +51,7 @@ public class Field extends JPanel {
         notifyAll();
     }
 
-    public synchronized void canMove(BouncingBall ball) throws
-            InterruptedException {
+    public synchronized void canMove(BouncingBall ball) throws InterruptedException {
         if (paused) {
             wait();
         }
