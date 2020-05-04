@@ -14,7 +14,9 @@ public class Field extends JPanel {
 
     private Timer repaintTimer = new Timer(10, new ActionListener() {
         public void actionPerformed(ActionEvent ev) {
+
             repaint();
+
         }
     });
 
@@ -28,6 +30,11 @@ public class Field extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D canvas = (Graphics2D) g;
+
+        for (BouncingBall ball: balls) {
+            ball.paint(canvas);
+        }
+    }
 
     public boolean isPaused(){
         return paused;
@@ -46,8 +53,7 @@ public class Field extends JPanel {
         notifyAll();
     }
 
-    public synchronized void canMove(BouncingBall ball) throws
-            InterruptedException {
+    public synchronized void canMove(BouncingBall ball) throws InterruptedException {
         if (paused) {
             wait();
         }

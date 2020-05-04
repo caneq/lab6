@@ -91,7 +91,11 @@ public class BouncingBall implements Runnable {
                     y += speedY;
                 }
 
-                Thread.sleep(MAX_SPEED - speed + 1);
+                int sleepTime = MAX_SPEED - speed + 1;
+                if (sleepTime < 1) {
+                    sleepTime = 1;
+                }
+                Thread.sleep(sleepTime);
             }
         } catch (InterruptedException ex) {
 
